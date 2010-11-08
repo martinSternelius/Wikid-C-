@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WikiModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="WikiEntities2" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Articles" EntityType="WikiModel.Article" />
+    <EntitySet Name="Article__has__Categories" EntityType="WikiModel.Article__has__Categories" />
+    <EntitySet Name="Article__has__Keywords" EntityType="WikiModel.Article__has__Keywords" />
+    <EntitySet Name="Article__has__Tag" EntityType="WikiModel.Article__has__Tag" />
+    <EntitySet Name="Article_section" EntityType="WikiModel.Article_section" />
+    <EntitySet Name="Categories" EntityType="WikiModel.Category" />
+    <EntitySet Name="Comments" EntityType="WikiModel.Comment" />
+    <EntitySet Name="Keywords" EntityType="WikiModel.Keyword" />
+    <EntitySet Name="Tags" EntityType="WikiModel.Tag" />
+    <EntitySet Name="Users" EntityType="WikiModel.User" />
+    <AssociationSet Name="ArticleArticle_section" Association="WikiModel.ArticleArticle_section">
+      <End Role="Article" EntitySet="Articles" />
+      <End Role="Article_section" EntitySet="Article_section" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Article">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="true" />
+    <Property Name="Pub_date" Type="DateTime" Nullable="false" />
+    <NavigationProperty Name="Article_section" Relationship="WikiModel.ArticleArticle_section" FromRole="Article" ToRole="Article_section" />
+  </EntityType>
+  <EntityType Name="Article__has__Categories">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Article_id" Type="Int32" Nullable="false" />
+    <Property Name="Categories_id" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Article__has__Keywords">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Keyword_id" Type="Int32" Nullable="false" />
+    <Property Name="Article_id" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Article__has__Tag">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Article_id" Type="Int32" Nullable="false" />
+    <Property Name="Tags_id" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Article_section">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Section_heading" Type="String" MaxLength="60" Unicode="true" FixedLength="true" />
+    <Property Name="Section_text" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="Parent_section" Type="Int32" />
+    <Property Name="Section_order" Type="Int32" />
+    <Property Type="Int32" Name="Article_id" Nullable="false" />
+    <NavigationProperty Name="Article" Relationship="WikiModel.ArticleArticle_section" FromRole="Article_section" ToRole="Article" />
+    <Property Type="String" Name="User_name" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Category_id" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
+    <Property Type="String" Name="Category1_1" Nullable="false" MaxLength="60" FixedLength="true" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Comment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Article_id" Type="Int32" Nullable="false" />
+    <Property Type="String" Name="text" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="User_name" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="Pub_date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Keyword">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="300" Unicode="true" FixedLength="true" />
+    <Property Type="String" Name="Keyword1" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Tag">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Tag1" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="true" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="12" Unicode="true" FixedLength="true" />
+    <Property Name="Email" Type="String" MaxLength="40" Unicode="true" FixedLength="true" />
+  </EntityType>
+  <Association Name="ArticleArticle_section">
+    <End Type="WikiModel.Article" Role="Article" Multiplicity="1" />
+    <End Type="WikiModel.Article_section" Role="Article_section" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Article">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Article_section">
+        <PropertyRef Name="Article_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

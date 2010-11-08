@@ -1,0 +1,343 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="WikiModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="WikiModelStoreContainer">
+          <EntitySet Name="Article__has__Categories" EntityType="WikiModel.Store.Article__has__Categories" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Article__has__Keywords" EntityType="WikiModel.Store.Article__has__Keywords" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Article__has__Tag" EntityType="WikiModel.Store.Article__has__Tag" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Article_section" EntityType="WikiModel.Store.Article_section" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Articles" EntityType="WikiModel.Store.Articles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Categories" EntityType="WikiModel.Store.Categories" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Comments" EntityType="WikiModel.Store.Comments" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Keywords" EntityType="WikiModel.Store.Keywords" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Tags" EntityType="WikiModel.Store.Tags" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Users" EntityType="WikiModel.Store.Users" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_ArticleArticle_section" Association="WikiModel.Store.FK_ArticleArticle_section">
+            <End Role="Articles" EntitySet="Articles" />
+            <End Role="Article_section" EntitySet="Article_section" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Article__has__Categories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Article_id" Type="int" Nullable="false" />
+          <Property Name="Categories_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Article__has__Keywords">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Keyword_id" Type="int" Nullable="false" />
+          <Property Name="Article_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Article__has__Tag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Article_id" Type="int" Nullable="false" />
+          <Property Name="Tags_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Article_section">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Section_heading" Type="nchar" MaxLength="60" />
+          <Property Name="Section_text" Type="varchar(max)" />
+          <Property Name="Parent_section" Type="int" />
+          <Property Name="Section_order" Type="int" />
+          <Property Name="Article_id" Type="int" Nullable="false" />
+          <Property Name="User_name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Articles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="nchar" Nullable="false" MaxLength="100" />
+          <Property Name="Pub_date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Category1" Type="nchar" Nullable="false" MaxLength="60" />
+          <Property Name="Category_id" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Comments">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="User_name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Article_id" Type="int" Nullable="false" />
+          <Property Name="Pub_date" Type="datetime" Nullable="false" />
+          <Property Name="text" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Keywords">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="nchar" Nullable="false" MaxLength="300" />
+          <Property Name="Keyword1" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Tags">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Tag1" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="nchar" Nullable="false" MaxLength="20" />
+          <Property Name="Password" Type="nchar" Nullable="false" MaxLength="12" />
+          <Property Name="Email" Type="nchar" MaxLength="40" />
+        </EntityType>
+        <Association Name="FK_ArticleArticle_section">
+          <End Role="Articles" Type="WikiModel.Store.Articles" Multiplicity="1" />
+          <End Role="Article_section" Type="WikiModel.Store.Article_section" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Articles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Article_section">
+              <PropertyRef Name="Article_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="WikiModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="WikiEntities4" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Article__has__Categories" EntityType="WikiModel.Article__has__Categories" />
+          <EntitySet Name="Article__has__Keywords" EntityType="WikiModel.Article__has__Keywords" />
+          <EntitySet Name="Article__has__Tag" EntityType="WikiModel.Article__has__Tag" />
+          <EntitySet Name="Article_section" EntityType="WikiModel.Article_section" />
+          <EntitySet Name="Articles" EntityType="WikiModel.Articles" />
+          <EntitySet Name="Categories" EntityType="WikiModel.Categories" />
+          <EntitySet Name="Comments" EntityType="WikiModel.Comments" />
+          <EntitySet Name="Keywords" EntityType="WikiModel.Keywords" />
+          <EntitySet Name="Tags" EntityType="WikiModel.Tags" />
+          <EntitySet Name="Users" EntityType="WikiModel.Users" />
+          <AssociationSet Name="FK_ArticleArticle_section" Association="WikiModel.FK_ArticleArticle_section">
+            <End Role="Articles" EntitySet="Articles" />
+            <End Role="Article_section" EntitySet="Article_section" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Article__has__Categories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Article_id" Type="Int32" Nullable="false" />
+          <Property Name="Categories_id" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Article__has__Keywords">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Keyword_id" Type="Int32" Nullable="false" />
+          <Property Name="Article_id" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Article__has__Tag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Article_id" Type="Int32" Nullable="false" />
+          <Property Name="Tags_id" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Article_section">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Section_heading" Type="String" MaxLength="60" Unicode="true" FixedLength="true" />
+          <Property Name="Section_text" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Parent_section" Type="Int32" />
+          <Property Name="Section_order" Type="Int32" />
+          <Property Name="Article_id" Type="Int32" Nullable="false" />
+          <Property Name="User_name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Articles" Relationship="WikiModel.FK_ArticleArticle_section" FromRole="Article_section" ToRole="Articles" />
+        </EntityType>
+        <EntityType Name="Articles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="true" />
+          <Property Name="Pub_date" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Article_section" Relationship="WikiModel.FK_ArticleArticle_section" FromRole="Articles" ToRole="Article_section" />
+        </EntityType>
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Category1" Type="String" Nullable="false" MaxLength="60" Unicode="true" FixedLength="true" />
+          <Property Name="Category_id" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
+        </EntityType>
+        <EntityType Name="Comments">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Article_id" Type="Int32" Nullable="false" />
+          <Property Name="Pub_date" Type="DateTime" Nullable="false" />
+          <Property Name="text" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Keywords">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="300" Unicode="true" FixedLength="true" />
+          <Property Name="Keyword1" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Tags">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tag1" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="12" Unicode="true" FixedLength="true" />
+          <Property Name="Email" Type="String" MaxLength="40" Unicode="true" FixedLength="true" />
+        </EntityType>
+        <Association Name="FK_ArticleArticle_section">
+          <End Role="Articles" Type="WikiModel.Articles" Multiplicity="1" />
+          <End Role="Article_section" Type="WikiModel.Article_section" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Articles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Article_section">
+              <PropertyRef Name="Article_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="WikiModelStoreContainer" CdmEntityContainer="WikiEntities4">
+          <EntitySetMapping Name="Article__has__Categories"><EntityTypeMapping TypeName="WikiModel.Article__has__Categories"><MappingFragment StoreEntitySet="Article__has__Categories">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="Article_id" ColumnName="Article_id" />
+            <ScalarProperty Name="Categories_id" ColumnName="Categories_id" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Article__has__Keywords"><EntityTypeMapping TypeName="WikiModel.Article__has__Keywords"><MappingFragment StoreEntitySet="Article__has__Keywords">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="Keyword_id" ColumnName="Keyword_id" />
+            <ScalarProperty Name="Article_id" ColumnName="Article_id" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Article__has__Tag"><EntityTypeMapping TypeName="WikiModel.Article__has__Tag"><MappingFragment StoreEntitySet="Article__has__Tag">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="Article_id" ColumnName="Article_id" />
+            <ScalarProperty Name="Tags_id" ColumnName="Tags_id" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Article_section"><EntityTypeMapping TypeName="WikiModel.Article_section"><MappingFragment StoreEntitySet="Article_section">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="Section_heading" ColumnName="Section_heading" />
+            <ScalarProperty Name="Section_text" ColumnName="Section_text" />
+            <ScalarProperty Name="Parent_section" ColumnName="Parent_section" />
+            <ScalarProperty Name="Section_order" ColumnName="Section_order" />
+            <ScalarProperty Name="Article_id" ColumnName="Article_id" />
+            <ScalarProperty Name="User_name" ColumnName="User_name" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Articles"><EntityTypeMapping TypeName="WikiModel.Articles"><MappingFragment StoreEntitySet="Articles">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="Title" ColumnName="Title" />
+            <ScalarProperty Name="Pub_date" ColumnName="Pub_date" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Categories"><EntityTypeMapping TypeName="WikiModel.Categories"><MappingFragment StoreEntitySet="Categories">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="Category1" ColumnName="Category1" />
+            <ScalarProperty Name="Category_id" ColumnName="Category_id" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Comments"><EntityTypeMapping TypeName="WikiModel.Comments"><MappingFragment StoreEntitySet="Comments">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="User_name" ColumnName="User_name" />
+            <ScalarProperty Name="Article_id" ColumnName="Article_id" />
+            <ScalarProperty Name="Pub_date" ColumnName="Pub_date" />
+            <ScalarProperty Name="text" ColumnName="text" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Keywords"><EntityTypeMapping TypeName="WikiModel.Keywords"><MappingFragment StoreEntitySet="Keywords">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="Description" ColumnName="Description" />
+            <ScalarProperty Name="Keyword1" ColumnName="Keyword1" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Tags"><EntityTypeMapping TypeName="WikiModel.Tags"><MappingFragment StoreEntitySet="Tags">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="Tag1" ColumnName="Tag1" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Users"><EntityTypeMapping TypeName="WikiModel.Users"><MappingFragment StoreEntitySet="Users">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="Username" ColumnName="Username" />
+            <ScalarProperty Name="Password" ColumnName="Password" />
+            <ScalarProperty Name="Email" ColumnName="Email" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="Model1">
+        <EntityTypeShape EntityType="WikiModel.Article__has__Categories" Width="1.5" PointX="0.75" PointY="4.75" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="WikiModel.Article__has__Keywords" Width="1.5" PointX="2.75" PointY="4.75" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="WikiModel.Article__has__Tag" Width="1.5" PointX="4.75" PointY="4.75" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="WikiModel.Article_section" Width="1.5" PointX="3" PointY="1" Height="2.5571907552083317" IsExpanded="true" />
+        <EntityTypeShape EntityType="WikiModel.Articles" Width="1.5" PointX="0.75" PointY="1.375" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="WikiModel.Categories" Width="1.5" PointX="5.75" PointY="0.75" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="WikiModel.Comments" Width="1.5" PointX="6.75" PointY="3.75" Height="1.9802864583333317" IsExpanded="true" />
+        <EntityTypeShape EntityType="WikiModel.Keywords" Width="1.5" PointX="6.75" PointY="6.75" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="WikiModel.Tags" Width="1.5" PointX="7.75" PointY="0.75" Height="1.4033821614583317" IsExpanded="true" />
+        <EntityTypeShape EntityType="WikiModel.Users" Width="1.5" PointX="0.75" PointY="7.75" Height="1.7879850260416674" IsExpanded="true" />
+        <AssociationConnector Association="WikiModel.FK_ArticleArticle_section" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="2.2689925130208337" />
+          <ConnectorPoint PointX="3" PointY="2.2689925130208337" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

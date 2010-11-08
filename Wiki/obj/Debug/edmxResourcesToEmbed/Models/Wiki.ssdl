@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WikiModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="WikiModelStoreContainer">
+    <EntitySet Name="Article__has__Categories" EntityType="WikiModel.Store.Article__has__Categories" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Article__has__Keywords" EntityType="WikiModel.Store.Article__has__Keywords" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Article__has__Tag" EntityType="WikiModel.Store.Article__has__Tag" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Article_section" EntityType="WikiModel.Store.Article_section" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Articles" EntityType="WikiModel.Store.Articles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Categories" EntityType="WikiModel.Store.Categories" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Comments" EntityType="WikiModel.Store.Comments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Keywords" EntityType="WikiModel.Store.Keywords" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Tags" EntityType="WikiModel.Store.Tags" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="WikiModel.Store.Users" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_ArticleArticle_section" Association="WikiModel.Store.FK_ArticleArticle_section">
+      <End Role="Articles" EntitySet="Articles" />
+      <End Role="Article_section" EntitySet="Article_section" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Article__has__Categories">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Article_id" Type="int" Nullable="false" />
+    <Property Name="Categories_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Article__has__Keywords">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Keyword_id" Type="int" Nullable="false" />
+    <Property Name="Article_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Article__has__Tag">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Article_id" Type="int" Nullable="false" />
+    <Property Name="Tags_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Article_section">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Section_heading" Type="nvarchar" MaxLength="50" />
+    <Property Name="Section_text" Type="ntext" />
+    <Property Name="Parent_section" Type="int" />
+    <Property Name="Section_order" Type="int" />
+    <Property Name="Article_id" Type="int" Nullable="false" />
+    <Property Name="User_name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Articles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="Pub_date" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Categories">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Category1" Type="nchar" Nullable="false" MaxLength="60" />
+    <Property Name="Category_id" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Comments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="text" Type="ntext" Nullable="false" />
+    <Property Name="User_name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Article_id" Type="int" Nullable="false" />
+    <Property Name="Pub_date" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Keywords">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Keyword" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tags">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Tag" Type="nvarchar" Nullable="false" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="nchar" Nullable="false" MaxLength="20" />
+    <Property Name="Password" Type="nchar" Nullable="false" MaxLength="12" />
+    <Property Name="Email" Type="nchar" MaxLength="40" />
+  </EntityType>
+  <Association Name="FK_ArticleArticle_section">
+    <End Role="Articles" Type="WikiModel.Store.Articles" Multiplicity="1" />
+    <End Role="Article_section" Type="WikiModel.Store.Article_section" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Articles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Article_section">
+        <PropertyRef Name="Article_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
